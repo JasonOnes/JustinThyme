@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head th:replace="fragments :: head"></head>
 
@@ -10,7 +11,17 @@
 
 <h1 th:text="${title}"></h1>
 
-<form method="post" style="max-width:600px;" th:object="${user}">
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+
+<form th:action="@{/login}" method="post" style="max-width:600px;" th:object="${user}">
+
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
     <div class="form-group">
         <label name="username">Username</label>
         <input class="form-control" type="text" name="username"/>

@@ -23,6 +23,7 @@ public class User {
     @Size(min=6, message="Passwords must be at least six characters.")
     private String password;
 
+    private String role;
 
     //note NotNull ? or keep optional IF user wants updates
     //note needs to be string for twillio
@@ -40,9 +41,10 @@ public class User {
     private boolean loggedIn;
 
 
-    public User(String username, String password, Seed.Area area, String phoneNumber, Long sessionId, Boolean loggedIn) {
+    public User(String username, String password, String role, Seed.Area area, String phoneNumber, Long sessionId, Boolean loggedIn) {
         this.username = username;
         this.password = password;
+        this.role = role;
         this.area = area;
         this.phoneNumber = phoneNumber;
         this.sessionId = sessionId;
@@ -62,6 +64,14 @@ public class User {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getPhoneNumber() {

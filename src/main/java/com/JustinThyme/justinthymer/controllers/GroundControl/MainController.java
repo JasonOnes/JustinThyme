@@ -9,13 +9,11 @@ import com.JustinThyme.justinthymer.models.forms.Packet;
 import com.JustinThyme.justinthymer.models.forms.Seed;
 import com.JustinThyme.justinthymer.models.forms.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.ListUtils;
 
 import javax.servlet.http.Cookie;
@@ -56,6 +54,7 @@ public class MainController {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public String login(Model model, @RequestParam String username, @RequestParam String password, HttpServletResponse response) {
 
         model.addAttribute("users", userDao.findAll());
@@ -117,7 +116,9 @@ public class MainController {
         return "/signup";
     }
 
+
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public String add(@ModelAttribute @Valid User newUser, Errors errors, Model model,
                       String verifyPassword, HttpServletResponse response) {
 

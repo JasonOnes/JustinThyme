@@ -11,7 +11,10 @@
 
 <h1 th:text="${title}"></h1>
 
-<form method="post" style="max-width:600px;" th:object="${user}">
+<form th:action="@{/signup}" method="post" style="max-width:600px;" th:object="${user}">
+
+    <!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> -->
+
     <div class="form-group">
         <label th:for="username">Username</label>
         <input class="form-control" th:field="*{username}" type="text" />

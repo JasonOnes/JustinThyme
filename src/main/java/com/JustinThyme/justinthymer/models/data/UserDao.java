@@ -13,6 +13,4 @@ import java.util.List;
 public interface UserDao extends CrudRepository<User, Integer> {
 
     List<User> findByUsername(String username);
-
-    User findById(int userId);
 }

@@ -13,7 +13,7 @@ import static com.JustinThyme.justinthymer.models.forms.Seed.Season.*;
 @SpringBootApplication
 public class JustinThymeRApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 		SpringApplication.run(JustinThymeRApplication.class, args);
 	}
 
