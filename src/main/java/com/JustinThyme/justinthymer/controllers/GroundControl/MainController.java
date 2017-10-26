@@ -271,8 +271,34 @@ public class MainController {
         return "/welcome-user";
     }
 
-//    @RequestMapping (value ="welcome-user", method = RequestMethod.POST)
-//    public String dahboardAdd (Model model)
+    @RequestMapping (value ="welcome-user", method = RequestMethod.POST)
+    public String dashboardAdd (Model model , @RequestParam int[] seedIds, Integer userId){
+
+
+        Packet aPacket =packetDao.findOne(userId);
+
+        for (int seedId : seedIds) {
+            Seed seedToPlant = seedDao.findOne(seedId);
+            aPacket.addSeed(seedToPlant);
+            aPacket.setReminder(seedToPlant);//note turns reminder on for all seeds in this sprint
+            packetDao.save(aPacket);
+        }
+
+        User user = userDao.findOne(userId);
+
+        Seed.Area area = user.getArea();
+        List<Seed> notChosenSeeds = seedDao.findByArea(area);
+        notChosenSeeds.removeAll(aPacket.getSeeds());
+
+
+        model.addAttribute("user", user);
+        model.addAttribute("seeds", aPacket.getSeeds());
+        model.addAttribute("seedsLeft", notChosenSeeds);
+
+
+
+        return "/welcome-user";
+    }
 
 
 

@@ -31,25 +31,18 @@
 
 </table>
 
+<form method="post" action = "welcome-user">
 <h3>Here are some more seeds that grow in your area:</h3>
+<ul th:each="seed : ${seedsLeft}">
 
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Plant Date</th>
-        <th>Reminder</th>
-    </tr>
+    <li><input th:text="${seed.name}" type="checkbox" name="seedIds" th:value="${seed.getId()}"/></li>
+</ul>
 
+    <input type="hidden" th:value="${user.getId()}" name="userId" />
+    <input type="submit" value ="Add more"/>
 
-    <tr th:each="seed :${seedsLeft}">
-        <td th:text="${seed.name}"></td>
-        <td th:text="${seed.plantDate}"></td>
-        <td th:if="${seed.reminder == true}" th:text="ON"></td>
-        <td th:if="${seed.reminder == false}" th:text="OFF"></td>
+</form>
 
-    </tr>
-
-</table>
 
 <div th:replace="fragments :: javascript"></div>
 </body>
