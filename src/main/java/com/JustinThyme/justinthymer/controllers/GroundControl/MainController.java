@@ -223,7 +223,10 @@ public class MainController {
 
     }
 
-
+//    @RequestMapping (value = "welcome-user")
+//    public String dashboard (Session Session id){
+//        return "/welcome-user";
+//    }
     @RequestMapping(value="/welcome-user-temp")
     public String tempHolder() {
         return "/welcome-user-temp";
