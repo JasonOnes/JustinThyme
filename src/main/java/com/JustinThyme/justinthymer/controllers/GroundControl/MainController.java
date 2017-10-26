@@ -8,6 +8,7 @@ import com.JustinThyme.justinthymer.models.data.UserDao;
 import com.JustinThyme.justinthymer.models.forms.Packet;
 import com.JustinThyme.justinthymer.models.forms.Seed;
 import com.JustinThyme.justinthymer.models.forms.User;
+//import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -252,6 +253,53 @@ public class MainController {
 
 
     }
+
+    @RequestMapping (value = "welcome-user", method = RequestMethod.GET)
+    public String dashboard (Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Packet aPacket = packetDao.findOne(user.getId());
+
+        Seed.Area area = user.getArea();
+        List<Seed> notChosenSeeds = seedDao.findByArea(area);
+        notChosenSeeds.removeAll(aPacket.getSeeds());
+
+
+        model.addAttribute("user", user);
+        model.addAttribute("seeds", aPacket.getSeeds());
+        model.addAttribute("seedsLeft", notChosenSeeds);
+
+        return "/welcome-user";
+    }
+
+    @RequestMapping (value ="welcome-user", method = RequestMethod.POST)
+    public String dashboardAdd (Model model , @RequestParam int[] seedIds, Integer userId){
+
+
+        Packet aPacket =packetDao.findOne(userId);
+
+        for (int seedId : seedIds) {
+            Seed seedToPlant = seedDao.findOne(seedId);
+            aPacket.addSeed(seedToPlant);
+            aPacket.setReminder(seedToPlant);//note turns reminder on for all seeds in this sprint
+            packetDao.save(aPacket);
+        }
+
+        User user = userDao.findOne(userId);
+
+        Seed.Area area = user.getArea();
+        List<Seed> notChosenSeeds = seedDao.findByArea(area);
+        notChosenSeeds.removeAll(aPacket.getSeeds());
+
+
+        model.addAttribute("user", user);
+        model.addAttribute("seeds", aPacket.getSeeds());
+        model.addAttribute("seedsLeft", notChosenSeeds);
+
+
+
+        return "/welcome-user";
+    }
+
 
 
     @RequestMapping(value="/welcome-user-temp")
