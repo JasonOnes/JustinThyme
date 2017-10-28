@@ -1,11 +1,10 @@
 package com.JustinThyme.justinthymer.models.forms;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -23,7 +22,6 @@ public class User {
     @Size(min=6, message="Passwords must be at least six characters.")
     private String password;
 
-    private String role;
 
     //note NotNull ? or keep optional IF user wants updates
     //note needs to be string for twillio
@@ -41,10 +39,24 @@ public class User {
     private boolean loggedIn;
 
 
-    public User(String username, String password, String role, Seed.Area area, String phoneNumber, Long sessionId, Boolean loggedIn) {
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role>roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+    public User(String username, String password, Set<Role> roles, Seed.Area area, String phoneNumber, Long sessionId, Boolean loggedIn) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
         this.area = area;
         this.phoneNumber = phoneNumber;
         this.sessionId = sessionId;
@@ -64,14 +76,6 @@ public class User {
     }
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getPhoneNumber() {
@@ -112,8 +116,11 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-
     }
+
+
+
+
 
     }
 

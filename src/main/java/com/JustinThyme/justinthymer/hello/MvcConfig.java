@@ -1,4 +1,4 @@
-/*
+
 package com.JustinThyme.justinthymer.hello;
 
 import org.springframework.context.annotation.Configuration;
@@ -18,4 +18,3 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         //registry.addViewController("/JustinThyme/signup").setViewName("signup");
     }
 }
-*/

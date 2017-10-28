@@ -1,6 +1,7 @@
 package com.JustinThyme.justinthymer;
 
 import com.JustinThyme.justinthymer.models.data.SeedDao;
+import com.JustinThyme.justinthymer.models.forms.Role;
 import com.JustinThyme.justinthymer.models.forms.Seed;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +26,7 @@ public class JustinThymeRApplication {
 			//note having trouble instantiating with default for reminder, so changed seed constructor
 			//note Date structure see notes in TwillController for details (year(-1900), month(-1), day, hour, minute)
 			//note in order not to repopulate Seed table run once then comment out below inputs
+            
 
 			seedDao.save(new Seed("Corn", WESTCOAST, SPRING));
 			seedDao.save(new Seed("Kale", WESTCOAST, FALL));
