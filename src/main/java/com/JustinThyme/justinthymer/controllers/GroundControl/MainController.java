@@ -258,9 +258,7 @@ public class MainController {
 
 
     @RequestMapping(value = "/seed-edit", method = RequestMethod.POST)
-
     public String seedListing(HttpSession session, Model model, @RequestParam (required = false)int[] seedIds,
-
                               Integer userId) {
 
         if(seedIds == null){
@@ -284,28 +282,18 @@ public class MainController {
         List<Seed> pickedSeedsAsSeeds = new ArrayList<>();
 
         //goes through list of chosen seeds and adds them to user's packet and sets reminder
-        if (seedIds == null){
-            model.addAttribute(new Packet());
-            model.addAttribute("seeds", seedDao.findByArea(currentUser.getArea()));
-            model.addAttribute("user", currentUser);
-            model.addAttribute("title", "pick at least ONE seed!");
-            return "/seed-edit";
-        } else {
-            for (int seedId : seedIds) {
-                Seed seedPicked = seedDao.findOne(seedId);
-                pickedSeedsAsSeeds.add(seedPicked);
-                //uses conversion method to transmute seed to seedInPacket by joining seed to specific packet
-                SeedInPacket seedToPlant = SeedToPacketSeed.fromSeedToPacket(seedPicked, newPacket);
-                seedToPlant.setReminder(seedToPlant);
-                seedsToPlant.add(seedToPlant);
-                seedInPacketDao.save(seedToPlant);
-            }
+        for (int seedId : seedIds) {
+            Seed seedPicked = seedDao.findOne(seedId);
+            pickedSeedsAsSeeds.add(seedPicked);
+            //uses conversion method to transmute seed to seedInPacket by joining seed to specific packet
+            SeedInPacket seedToPlant = SeedToPacketSeed.fromSeedToPacket(seedPicked, newPacket);
+            seedToPlant.setReminder(seedToPlant);
+            seedsToPlant.add(seedToPlant);
+            seedInPacketDao.save(seedToPlant);
         }
-
 
         //after all seeds have been converted and reminder turned on, set to packet
         newPacket.setSeeds(seedsToPlant);
-
 
         //below needed for TwilioTask
         String number = currentUser.getPhoneNumber();
@@ -315,7 +303,6 @@ public class MainController {
         Seed.Area area = currentUser.getArea();
         List<Seed> notChosenSeeds = seedDao.findByArea(area);
         notChosenSeeds.removeAll(pickedSeedsAsSeeds);
-
 
         //loops through the user's seeds and starts the update for each
         for (SeedInPacket seed : newPacket.getSeeds()) {
@@ -327,14 +314,11 @@ public class MainController {
             }
         }
 
-
         model.addAttribute("user", currentUser);
         model.addAttribute("seeds", newPacket.getSeeds());
         model.addAttribute("seedsLeft", notChosenSeeds);
 
         return "/welcome-user";
-
-
     }
 
 
@@ -401,23 +385,19 @@ public class MainController {
         userDao.save(aUser);
         request.getSession().setAttribute("user", aUser);
 
+        // if area is changed, user is shown a list of seeds for the new area and prompted to pick new seeds
         if (AreaChanged) {
             model.addAttribute("title", "New area!");
             model.addAttribute("user", aUser);
             model.addAttribute("seeds", seedDao.findByArea(aUser.getArea()));
-
             return "/seed-edit";
         } else {
-
             model.addAttribute("user", aUser);
             model.addAttribute("areas", Seed.Area.values());
             model.addAttribute("title", "Editing Preferences for " + aUser.username);
             return "/edit-profile";
-
         }
     }
-
-
 
     @RequestMapping(value = "/change-password", method = RequestMethod.GET)
     public String changePassword(Model model, HttpServletRequest request){
@@ -440,7 +420,6 @@ public class MainController {
                                        String verifyNewPassword, HttpServletRequest request, HttpServletResponse response){
 
         User aUser = (User) request.getSession().getAttribute("user");
-
 
         String salt = aUser.getSalt();
         //hashes input password and checks against stored password
@@ -468,7 +447,6 @@ public class MainController {
             return "/change-password";
         }
 
-
         //note keeps original salt
         String newHash = HashPass.generateHash(salt + newPassword);
         aUser.setPassword(newHash);
@@ -483,7 +461,6 @@ public class MainController {
         response.addCookie(sessionIdCookie);
         request.getSession().removeAttribute("user");
 
-
         model.addAttribute("title", "Login with New Password");
         return "/login";
     }
@@ -493,7 +470,7 @@ public class MainController {
     public String dashboard (Model model, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("user");
 
-//        if user is not logged in, sent back to splash page
+        // if user is not logged in, sent back to splash page
         if(user == null){
             model.addAttribute("title", "Welcome to JustinThyme");
             return "/splash";
@@ -529,14 +506,10 @@ public class MainController {
                                 @RequestParam(required = false)int[] seedIds,
                                 @RequestParam Integer userId){
 
-
-
         Packet aPacket = packetDao.findByUserId(userId);
 
         List<SeedInPacket> seedsToPlant = new ArrayList<>();
         List<Seed> pickedSeedsAsSeeds = new ArrayList<>();
-
-
 
         //changes reminder ON Off if either button pushed
         if (ON != null) {
@@ -553,21 +526,18 @@ public class MainController {
         }
 
         //remove seeds from packet if they are selected
-
-            if (seedToRemoveIds != null) {
-                for (int id : seedToRemoveIds) {
-                    SeedInPacket seedToGo = seedInPacketDao.findById(id);
-                    seedInPacketDao.delete(seedToGo);
-                }
+        if (seedToRemoveIds != null) {
+            for (int id : seedToRemoveIds) {
+                SeedInPacket seedToGo = seedInPacketDao.findById(id);
+                seedInPacketDao.delete(seedToGo);
             }
-
+        }
 
         //add selected seed to seedInPacketDao
         if (seedIds != null) {
             for (int seedId : seedIds) {
                 Seed seedPicked = seedDao.findOne(seedId);
                 pickedSeedsAsSeeds.add(seedPicked);
-
                 SeedInPacket seedToPlant = SeedToPacketSeed.fromSeedToPacket(seedPicked, aPacket);
                 seedToPlant.setReminder(seedToPlant);
                 seedsToPlant.add(seedToPlant);
@@ -577,14 +547,13 @@ public class MainController {
 
         User user = userDao.findOne(userId);
 
-        //get seedname from user's seedInPacket
+        //get seed name from user's seedInPacket
         List<Seed> seedsToRemove = new ArrayList<>();
         for (SeedInPacket seedInPacket : aPacket.getSeeds()) {
             String name = seedInPacket.getName();
             List<Seed> aSeed = seedDao.findByName(name);
             seedsToRemove.addAll(aSeed);
         }
-
 
         List<Seed> seedsLeft = seedDao.findByArea(user.getArea());
         seedsLeft.removeAll(seedsToRemove);
@@ -595,9 +564,6 @@ public class MainController {
 
         return "/welcome-user";
     }
-
-
-
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.GET)
     public String displayUserToRemove(Model model) {
@@ -613,10 +579,7 @@ public class MainController {
 
         if (user == null) {
             return "redirect:login";
-        }
-
-        else {
-
+        } else {
             //retrieve and iterate over users packet to remove seeds before deleting user
             List<SeedInPacket> seeds = seedInPacketDao.findAll();
             Packet moldyPacket = packetDao.findByUserId(user.getId());
@@ -633,11 +596,8 @@ public class MainController {
                 userDao.delete(user);
                 model.addAttribute("title", "Deleted!");
                 return "/well-wishes";
-
             }
         }
-
-
     }
 
 
