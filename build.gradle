@@ -53,29 +53,29 @@ dependencies {
 //task stage(dependsOn: ['build', 'clean'])
 //build.mustRunAfter clean
 
-//task stage {
-//	dependsOn installDist
-//}
+task stage {
+	dependsOn installDist
+}
 
 //note WAR file compiled by Heroku --deps for Tomcat Webapp Runner config suggested by H
 
-apply plugin: 'war'
-
-task stage() {
-	dependsOn clean, war
-}
-
-war.mustRunAfter clean
-
-task copyToLib(type: Copy) {
-	into "$buildDir/server"
-	from(configurations.compile) {
-		include "webapp-runner*"
-	}
-}
-
-stage.dependsOn(copyToLib)
-
+//apply plugin: 'war'
+//
+//task stage() {
+//	dependsOn clean, war
+//}
+//
+//war.mustRunAfter clean
+//
+//task copyToLib(type: Copy) {
+//	into "$buildDir/server"
+//	from(configurations.compile) {
+//		include "webapp-runner*"
+//	}
+//}
+//
+//stage.dependsOn(copyToLib)
+//
 
 bootRun {
 	addResources = true
