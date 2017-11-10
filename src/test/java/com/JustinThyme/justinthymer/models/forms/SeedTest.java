@@ -3,18 +3,28 @@ package com.JustinThyme.justinthymer.models.forms;
 //import org.junit.jupiter.api.AfterEach;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++note
+//import static com.JustinThyme.justinthymer.models.forms.Seed.Area.WESTCOAST;
+//import static com.JustinThyme.justinthymer.models.forms.Seed.Season.WINTER;
+//import com.JustinThyme.justinthymer.models.data.SeedDao;
+//import org.junit.Test;
+////import java.util.Date;
+////
+//class SeedTest {
+//    //
+//    SeedDao seedDao;
+//    Seed aSeed = new Seed("Beets", WESTCOAST, WINTER);
 //
-import static com.JustinThyme.justinthymer.models.forms.Seed.Area.WESTCOAST;
-import static com.JustinThyme.justinthymer.models.forms.Seed.Season.WINTER;
-import com.JustinThyme.justinthymer.models.data.SeedDao;
-import org.junit.Test;
-//import java.util.Date;
+//    @Test
+//    void getSeason() {
+//        Seed.Season seedSeason = aSeed.getSeason();
 //
-class SeedTest {
-    //
-    SeedDao seedDao;
-    Seed aSeed = new Seed("Beets", WESTCOAST, WINTER);
+//        assert seedSeason.equals(aSeed.season);
 //
+//        System.out.println(seedSeason);
+//    }
+//}
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 //    @BeforeEach
 //    void setUp() {
@@ -53,15 +63,7 @@ class SeedTest {
 //
 
 
-    @Test
-    void getSeason() {
-        Seed.Season seedSeason = aSeed.getSeason();
 
-        assert seedSeason.equals(aSeed.season);
-
-        System.out.println(seedSeason);
-    }
-}
 //
 //
 //    @Test
