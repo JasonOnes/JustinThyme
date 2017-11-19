@@ -29,7 +29,7 @@ repositories {
 	jcenter()
 }
 
-//mainClassName = "Main"
+//mainClassName = "justin-thyme-r.JustinThymeRApplication"
 
 dependencies {
 
@@ -52,11 +52,10 @@ dependencies {
 }
 
 //note https://stackoverflow.com/questions/26389679/running-spring-app-built-with-gradle-on-heroku
-//jar {
-//	baseName = 'demo'
-//	version = '0.0.1-SNAPSHOT'
-//}
-
+jar {
+	baseName = 'justin-thyme-r'
+	version = '0.0.1-SNAPSHOT'
+}
 
 
 //task stage(type: Copy, dependsOn: [clean, build]) {
@@ -66,11 +65,13 @@ dependencies {
 //		'app.jar'
 //	}
 //}
+//
 //stage.mustRunAfter(clean)
 //
 //clean << {
 //	project.file('app.jar').delete()
 //}
+
 
 //task stage(dependsOn: ['build', 'clean'])
 //build.mustRunAfter clean
