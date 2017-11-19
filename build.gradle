@@ -20,6 +20,7 @@ apply plugin: 'org.springframework.boot'
 //apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.JustinThyme'
+
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -46,23 +47,30 @@ dependencies {
 	compile "org.postgresql:postgresql:9.4-1201-jdbc4"
 	testCompile 'junit:junit:4.11'
 
-	compile 'com.github.jsimone:webapp-runner:8.5.11.3'
+	//compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 
 }
 
 //note https://stackoverflow.com/questions/26389679/running-spring-app-built-with-gradle-on-heroku
-task stage(type: Copy, dependsOn: [clean, build]) {
-	from jar.archivePath
-	into project.rootDir
-	rename {
-		'app.jar'
-	}
+jar {
+	baseName = 'demo'
+	version = '0.0.1-SNAPSHOT'
 }
-stage.mustRunAfter(clean)
 
-clean << {
-	project.file('app.jar').delete()
-}
+
+
+//task stage(type: Copy, dependsOn: [clean, build]) {
+//	from jar.archivePath
+//	into project.rootDir
+//	rename {
+//		'app.jar'
+//	}
+//}
+//stage.mustRunAfter(clean)
+//
+//clean << {
+//	project.file('app.jar').delete()
+//}
 
 //task stage(dependsOn: ['build', 'clean'])
 //build.mustRunAfter clean
