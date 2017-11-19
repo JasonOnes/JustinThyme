@@ -10,8 +10,7 @@ public class TwillSend {
 
     // Setup your own account for personal SID, TOKEN, and phone number
     //public static final String ACCOUNT_SID = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-    //note original heroku twill error len    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    //public static final String ACCOUNT_SID;// = String ACCOUNT_SID;
+
     public static final String ACCOUNT_SID = System.getenv("ACCOUNT_SID");
     public static final String AUTH_TOKEN = System.getenv("AUTH_TOKEN");
 

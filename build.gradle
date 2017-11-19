@@ -50,12 +50,26 @@ dependencies {
 
 }
 
+//note https://stackoverflow.com/questions/26389679/running-spring-app-built-with-gradle-on-heroku
+task stage(type: Copy, dependsOn: [clean, build]) {
+	from jar.archivePath
+	into project.rootDir
+	rename {
+		'app.jar'
+	}
+}
+stage.mustRunAfter(clean)
+
+clean << {
+	project.file('app.jar').delete()
+}
+
 //task stage(dependsOn: ['build', 'clean'])
 //build.mustRunAfter clean
 
-task stage {
-	dependsOn installDist
-}
+//task stage {
+//	dependsOn installDist
+//}
 
 //note WAR file compiled by Heroku --deps for Tomcat Webapp Runner config suggested by H
 
