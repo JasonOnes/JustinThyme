@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Timer;
 
 @Controller
-@RequestMapping("Fuck YOU heroku!!!")
+@RequestMapping("FuckYOUheroku!!!")
 @SessionAttributes("username")
 public class MainController {
 
