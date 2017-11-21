@@ -52,8 +52,9 @@ nbdist/
 tokens.txt
 .env
 
-#out/production/classes/
-#out/test/
+out/production/classes/
+out/test/
+
 
 
 
