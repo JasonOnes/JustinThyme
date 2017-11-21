@@ -1,16 +1,16 @@
-# Compiled class file
+## Compiled class file
 *.class
 
-# Log file
+## Log file
 *.log
 
-# BlueJ files
+## BlueJ files
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+## Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+## Package Files #
 *.jar
 *.war
 *.ear
@@ -26,7 +26,7 @@ hs_err_pid*
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
-### STS ###
+#### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -34,13 +34,13 @@ hs_err_pid*
 .settings
 .springBeans
 
-### IntelliJ IDEA ###
+#### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+#### NetBeans ###
 nbproject/private/
 build/
 nbbuild/
@@ -48,9 +48,12 @@ dist/
 nbdist/
 .nb-gradle/
 
-### Sensitive data ###
+#### Sensitive data ###
 tokens.txt
 .env
 
-out/production/classes/
-out/test/
+#out/production/classes/
+#out/test/
+
+
+
