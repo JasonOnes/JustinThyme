@@ -13,7 +13,7 @@ buildscript {
 }
 
 //apply plugin: 'war'
-apply plugin: 'distribution'
+//apply plugin: 'distribution'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -26,7 +26,7 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
-	jcenter()
+	//jcenter()
 }
 
 //mainClassName = "justin-thyme-r.JustinThymeRApplication"
@@ -46,8 +46,8 @@ dependencies {
 
 	//compile "com.heroku.sdk:heroku-jdbc:0.1.1"
 
-	compile "org.postgresql:postgresql:9.4-1201-jdbc4"
-	testCompile 'junit:junit:4.11'
+//	compile "org.postgresql:postgresql:9.4-1201-jdbc4"
+//	testCompile 'junit:junit:4.11'
 
 	//compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 
