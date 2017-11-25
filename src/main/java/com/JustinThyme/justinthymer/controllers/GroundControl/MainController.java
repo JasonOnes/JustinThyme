@@ -43,20 +43,20 @@ public class MainController {
     @Autowired
     private SeedInPacketDao seedInPacketDao;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "")
     public String splash(Model model) {
 
         model.addAttribute("title", "Welcome to JustinThyme");
         return "splash";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("title", "Log on in!");
         return "/login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(Model model, @RequestParam String username, @RequestParam String password, HttpServletResponse response, HttpServletRequest request) {
 
         Iterable<User> users = userDao.findAll();
