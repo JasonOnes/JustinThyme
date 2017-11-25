@@ -53,7 +53,7 @@ public class MainController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("title", "Log on in!");
-        return "/login";
+        return "login";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
@@ -81,7 +81,7 @@ public class MainController {
                 // redirects user to seed-edit page if they have no seeds in their packet
                 if (userPacket == null) {
                     model.addAttribute("seeds", seedDao.findByArea(user.getArea()));
-                    return "/seed-edit";
+                    return "seed-edit";
                 }
 
                 //makes a list of seeds not picked for display from list of seedsInPacket
@@ -105,15 +105,15 @@ public class MainController {
                 model.addAttribute("seeds", userPacket.getSeeds());
                 model.addAttribute("seedsLeft", seedsLeft);
 
-                return "/welcome-user";
+                return "welcome-user";
             } else {
                 model.addAttribute("title", "No user by that name or incorrect password!");
             }
         }
-        return "/login";
+        return "login";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logout(Model model, HttpServletRequest request) {
 
         User aUser = (User) request.getSession().getAttribute("user");
@@ -123,30 +123,30 @@ public class MainController {
             return "splash";
         } else {
             model.addAttribute("title", "Click here to Logout.");
-            return "/logout";
+            return "logout";
         }
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
     public String logout(Model model, HttpServletResponse response, HttpServletRequest request) {
         model.addAttribute("title", "See ya next Thyme!");
 
             //Remove user from session
             request.getSession().removeAttribute("user");
 
-            return "/see-ya";
+            return "see-ya";
     }
 
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @RequestMapping(value = "signup", method = RequestMethod.GET)
     public String add(Model model) {
         model.addAttribute("title", "New User!");
         model.addAttribute(new User());
         model.addAttribute("areas", Seed.Area.values());
-        return "/signup";
+        return "signup";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "signup", method = RequestMethod.POST)
     public String add(@ModelAttribute @Valid User newUser, Errors errors, Model model, String password,
                       String verifyPassword, HttpServletResponse response, HttpServletRequest request) {
 
@@ -164,7 +164,7 @@ public class MainController {
                 model.addAttribute(newUser);
                 model.addAttribute("areas", Seed.Area.values());
                 model.addAttribute("userErrorMessage", "That username is taken.");
-                return "/signup";
+                return "signup";
             }
         }
 
@@ -177,7 +177,7 @@ public class MainController {
             }
             if (errors.hasErrors())
                 System.out.println(errors);
-            return "/signup";
+            return "signup";
         } else {
             //hashes password before saving to User
             newUser.setPassword(HashPass.generateHash(salt + password));
@@ -191,21 +191,21 @@ public class MainController {
             request.getSession().setAttribute("user", newUser);
 
             model.addAttribute("seeds", seeds);
-            return "/seed-edit";
+            return "seed-edit";
         }
     }
 
-    @RequestMapping(value = "/seed-edit", method = RequestMethod.GET)
+    @RequestMapping(value = "seed-edit", method = RequestMethod.GET)
     public String showSeeds(Model model, User newUser, HttpServletRequest request) {
 
         Seed.Area area = newUser.getArea();
         model.addAttribute(new Packet());
         model.addAttribute("seeds", seedDao.findByArea(area));
         model.addAttribute("user", newUser);
-        return "/seed-edit";
+        return "seed-edit";
     }
 
-    @RequestMapping(value = "/seed-edit", method = RequestMethod.POST)
+    @RequestMapping(value = "seed-edit", method = RequestMethod.POST)
     public String seedListing(HttpSession session, Model model, @RequestParam (required = false)int[] seedIds,
                               Integer userId) {
 
@@ -215,7 +215,7 @@ public class MainController {
             model.addAttribute(new Packet());
             model.addAttribute("seeds", seedDao.findByArea(area));
             model.addAttribute("user", newUser);
-            return "/seed-edit";
+            return "seed-edit";
         }
         Packet newPacket = new Packet();
         User currentUser = userDao.findOne(userId);
@@ -266,10 +266,10 @@ public class MainController {
         model.addAttribute("seeds", newPacket.getSeeds());
         model.addAttribute("seedsLeft", notChosenSeeds);
 
-        return "/welcome-user";
+        return "welcome-user";
     }
 
-    @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
+    @RequestMapping(value = "edit-profile", method = RequestMethod.GET)
     public String editProfilePreferences(Model model, HttpServletRequest request) {
         // enables user to change password, phone_number, area, and gives un-subscribe option
 
@@ -279,7 +279,7 @@ public class MainController {
             model.addAttribute("user", aUser);
             model.addAttribute("areas", Seed.Area.values());
             model.addAttribute("title", "Editing Preferences for " + aUser.username);
-            return "/edit-profile";
+            return "edit-profile";
         } else {
             //if no current user, redirect to splash page
             //nothing to edit if user is not logged in
@@ -288,7 +288,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/edit-profile", method = RequestMethod.POST)
+    @RequestMapping(value = "edit-profile", method = RequestMethod.POST)
     public String saveChangesToProfilePreferences(@ModelAttribute @Valid User user, Errors errors,
                                                   Model model, HttpServletRequest request) {
 
@@ -306,7 +306,7 @@ public class MainController {
             model.addAttribute("user", user);
             model.addAttribute("areas", Seed.Area.values());
             model.addAttribute("title", "Editing Preferences for " + aUser.username);
-            return "/edit-profile";
+            return "edit-profile";
         } else {
             //SAVE CHANGED INFO
             //take user form session, and use validated fields to take new values
@@ -336,16 +336,16 @@ public class MainController {
             model.addAttribute("user", aUser);
             model.addAttribute("seeds", seedDao.findByArea(aUser.getArea()));
 
-            return "/seed-edit";
+            return "seed-edit";
         } else {
             model.addAttribute("user", aUser);
             model.addAttribute("areas", Seed.Area.values());
             model.addAttribute("title", "Editing Preferences for " + aUser.username);
-            return "/edit-profile";
+            return "edit-profile";
         }
     }
 
-    @RequestMapping(value = "/change-password", method = RequestMethod.GET)
+    @RequestMapping(value = "change-password", method = RequestMethod.GET)
     public String changePassword(Model model, HttpServletRequest request){
 
         User aUser = (User) request.getSession().getAttribute("user");
@@ -353,7 +353,7 @@ public class MainController {
         if (aUser != null) {
             model.addAttribute("user", aUser);
             model.addAttribute("title", "Change Password for " + aUser.username);
-            return "/change-password";
+            return "change-password";
         } else {
             //if no current user, redirect to splash page
             //nothing to edit if user is not logged in
@@ -362,7 +362,7 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    @RequestMapping(value = "change-password", method = RequestMethod.POST)
     public String changePassword(@ModelAttribute @Valid User user, Errors errors, Model model,String password, String newPassword,
                                        String verifyNewPassword, HttpServletRequest request, HttpServletResponse response){
 
@@ -377,7 +377,7 @@ public class MainController {
         if (!checkPass.equals(realPass)) {
             model.addAttribute("title", "Try again");
             model.addAttribute("passwordErrorMessage", "Incorrect password");
-            return "/change-password";
+            return "change-password";
         }
         else if (!newPassword.equals(verifyNewPassword) || newPassword.length() < 6 || newPassword.equals(password)) {
             model.addAttribute("title", "Try again");
@@ -390,7 +390,7 @@ public class MainController {
             if (newPassword != "" && !newPassword.equals(verifyNewPassword)) {
                 model.addAttribute("errorMessage", "Passwords do not match.");
             }
-            return "/change-password";
+            return "change-password";
         }
 
         //user keeps original salt
@@ -407,21 +407,21 @@ public class MainController {
         return "redirect:login";
     }
 
-    @RequestMapping(value ="/welcome-user", method = RequestMethod.GET)
+    @RequestMapping(value ="welcome-user", method = RequestMethod.GET)
     public String dashboard (Model model, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("user");
 
         // if user is not logged in, sent back to splash page
         if(user == null){
             model.addAttribute("title", "Welcome to JustinThyme");
-            return "/splash";
+            return "splash";
         } else {
             Packet aPacket = packetDao.findByUserId(user.getId());
             // redirects user to seed-edit page if they have no seeds in their packet
             if (aPacket == null) {
                 model.addAttribute("user", user);
                 model.addAttribute("seeds", seedDao.findByArea(user.getArea()));
-                return "/seed-edit";
+                return "seed-edit";
             }
             List<Seed> seedsToRemove = new ArrayList<>();
             for (SeedInPacket seedInPacket : aPacket.getSeeds()) {
@@ -437,10 +437,10 @@ public class MainController {
             model.addAttribute("seeds", aPacket.getSeeds());
             model.addAttribute("seedsLeft", notChosenSeeds);
         }
-        return "/welcome-user";
+        return "welcome-user";
     }
 
-    @RequestMapping (value ="/welcome-user", method = RequestMethod.POST)
+    @RequestMapping (value ="welcome-user", method = RequestMethod.POST)
     public String dashboardAdd (Model model , @RequestParam(required = false)int[] seedToRemoveIds,
                                 @RequestParam(required = false)int[] ON,
                                 @RequestParam(required = false)int[] OFF,
@@ -503,17 +503,17 @@ public class MainController {
         model.addAttribute("seeds", aPacket.getSeeds());
         model.addAttribute("seedsLeft",seedsLeft );
 
-        return "/welcome-user";
+        return "welcome-user";
     }
 
-    @RequestMapping(value = "/unsubscribe", method = RequestMethod.GET)
+    @RequestMapping(value = "unsubscribe", method = RequestMethod.GET)
     public String displayUserToRemove(Model model) {
 
         model.addAttribute("title", "Sayonara!");
-        return "/unsubscribe";
+        return "unsubscribe";
     }
 
-    @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
+    @RequestMapping(value = "unsubscribe", method = RequestMethod.POST)
     public String processUserRemoval(Model model, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
@@ -537,7 +537,7 @@ public class MainController {
                 request.getSession().removeAttribute("user");
                 userDao.delete(user);
                 model.addAttribute("title", "Deleted!");
-                return "/well-wishes";
+                return "well-wishes";
             }
         }
     }
